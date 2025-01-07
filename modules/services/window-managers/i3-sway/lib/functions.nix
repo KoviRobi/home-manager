@@ -16,15 +16,11 @@ rec {
     cfg.config.defaultWorkspace != null && v == cfg.config.defaultWorkspace)
     cfg.config.keybindings;
 
-  keybindingsRest = filterAttrs (n: v:
-    cfg.config.defaultWorkspace == null || v != cfg.config.defaultWorkspace)
-    cfg.config.keybindings;
-
   keybindingsStr = { keybindings, bindsymArgs ? "", indent ? "" }:
-    concatStringsSep "\n" (mapAttrsToList (keycomb: action:
-      optionalString (action != null) "${indent}bindsym ${
+    concatStringsSep "\n" (map ({name, value}:
+      optionalString (value != null) "${indent}bindsym ${
         lib.optionalString (bindsymArgs != "") "${bindsymArgs} "
-      }${keycomb} ${action}") keybindings);
+      }${name} ${value}") keybindings);
 
   keycodebindingsStr = keycodebindings:
     concatStringsSep "\n" (mapAttrsToList (keycomb: action:
@@ -44,7 +40,7 @@ rec {
   modeStr = bindkeysToCode: name: keybindings: ''
     mode "${name}" {
     ${keybindingsStr {
-      inherit keybindings;
+      keybindings = lib.attrsToList keybindings;
       bindsymArgs = lib.optionalString bindkeysToCode "--to-code";
       indent = "  ";
     }}
@@ -162,4 +158,26 @@ rec {
         v
       else
         "${prefix}${v}"}") list);
+
+  /**
+    This provides a way to give a set some order, by being able to define which
+    elements go first, which go last -- if unspecified the rest of the elements
+    sit somewhere in the middle.
+
+    Returns a list of {name, value} the same way as attrsToList does.
+
+    Don't have elements in both first and last.
+    */
+  orderBy = set: first: last:
+    let
+      overlaps = builtins.intersectAttrs
+        (builtins.listToAttrs (map (name: { inherit name; value = null; }) first))
+        (builtins.listToAttrs (map (name: { inherit name; value = null; }) last));
+      middle = builtins.removeAttrs (builtins.removeAttrs set first) last;
+    in
+      if overlaps != {}
+      then throw "Overlapping lists in orderBy: ${builtins.concatStringsSep ", " overlaps}"
+      else (map (name: { inherit name; value = set.${name}; }) first)
+        ++ (lib.attrsToList middle)
+        ++ (map (name: { inherit name; value = set.${name}; }) last);
 }

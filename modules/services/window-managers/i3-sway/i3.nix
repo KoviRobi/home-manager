@@ -97,6 +97,9 @@ let
 
           Consider to use `lib.mkOptionDefault` function to extend or override
           default keybindings instead of specifying all of them from scratch.
+
+          See firstKeys/lastKeys if you need order (e.g. because initial
+          workspaces depend on the order).
         '';
         example = literalExpression ''
           let
@@ -106,6 +109,25 @@ let
             "''${modifier}+Shift+q" = "kill";
             "''${modifier}+d" = "exec ''${pkgs.dmenu}/bin/dmenu_run";
           }
+        '';
+      };
+
+      firstKeys = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = [ "Mod4+1" "Mod4+2" "Mod4+3" ];
+        description = ''
+          Keybindings which must come first, useful for ensuring workspaces get
+          created in the given order.
+        '';
+      };
+
+      lastKeys = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = [ "Mod4+1" "Mod4+2" "Mod4+3" ];
+        description = ''
+          Keybindings which must come last.
         '';
       };
 
@@ -140,7 +162,7 @@ let
   inherit (commonFunctions)
     keybindingsStr keycodebindingsStr modeStr assignStr barStr gapsStr
     floatingCriteriaStr windowCommandsStr colorSetStr windowBorderString
-    fontConfigStr keybindingDefaultWorkspace keybindingsRest workspaceOutputStr;
+    fontConfigStr keybindingDefaultWorkspace orderBy workspaceOutputStr;
 
   startupEntryStr = { command, always, notification, workspace, ... }:
     concatStringsSep " " [
@@ -174,8 +196,13 @@ let
         "client.urgent ${colorSetStr colors.urgent}"
         "client.placeholder ${colorSetStr colors.placeholder}"
         "client.background ${colors.background}"
-        (keybindingsStr { keybindings = keybindingDefaultWorkspace; })
-        (keybindingsStr { keybindings = keybindingsRest; })
+        (keybindingsStr {
+          keybindings =
+            orderBy
+              cfg.config.keybindings
+              (builtins.attrNames keybindingDefaultWorkspace ++ cfg.config.firstKeys)
+              cfg.config.lastKeys;
+        })
         (keycodebindingsStr keycodebindings)
       ] ++ mapAttrsToList (modeStr false) modes
         ++ mapAttrsToList assignStr assigns ++ map barStr bars

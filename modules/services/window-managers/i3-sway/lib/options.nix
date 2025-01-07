@@ -893,6 +893,8 @@ in {
         if isSway then "sway" else "i3"
       } is launched.
       This must to correspond to the value of the keybinding of the default workspace.
+
+      DEPRECATED use firstKeys/lastKeys
     '';
     example = "workspace number 9";
   };
