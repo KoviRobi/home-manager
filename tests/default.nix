@@ -14,35 +14,33 @@ let
   # `"@package-name@"`. This allows the tests to refer to derivations through
   # their values without establishing an actual dependency on the derivation
   # output.
-  scrubDerivations = attrs:
+  scrubDerivation = name: value:
     let
-      scrubDerivation = name: value:
-        let
-          scrubbedValue = scrubDerivations value;
+      scrubbedValue = scrubDerivations value;
 
-          newDrvAttrs = {
-            buildScript = abort "no build allowed";
+      newDrvAttrs = {
+        buildScript = abort "no build allowed";
 
-            outPath = builtins.traceVerbose ("${name} - got out path")
-              "@${lib.getName value}@";
+        outPath = builtins.traceVerbose "${name} - got out path"
+          "@${lib.getName value}@";
 
-            # Prevent getOutput from descending into outputs
-            outputSpecified = true;
+        # Prevent getOutput from descending into outputs
+        outputSpecified = true;
 
-            # Allow the original package to be used in derivation inputs
-            __spliced = {
-              buildHost = value;
-              hostTarget = value;
-            };
-          };
-        in if lib.isAttrs value then
-          if lib.isDerivation value then
-            scrubbedValue // newDrvAttrs
-          else
-            scrubbedValue
-        else
-          value;
-    in lib.mapAttrs scrubDerivation attrs;
+        # Allow the original package to be used in derivation inputs
+        __spliced = {
+          buildHost = value;
+          hostTarget = value;
+        };
+      };
+    in if lib.isAttrs value then
+      if lib.isDerivation value then
+        scrubbedValue // newDrvAttrs
+      else
+        scrubbedValue
+    else
+      value;
+  scrubDerivations = attrs: let in lib.mapAttrs scrubDerivation attrs;
 
   # Globally unscrub a few selected packages that are used by a wide selection of tests.
   whitelist = let
@@ -63,10 +61,73 @@ let
       };
   in outer;
 
+  darwinBlacklist = let
+    # List of packages that need to be scrubbed on Darwin
+    # Packages are scrubbed in linux and expected in test output
+    packagesToScrub = [
+      "alot"
+      "antidote"
+      "atuin"
+      "bash-completion"
+      "carapace"
+      "delta"
+      "direnv"
+      "espanso"
+      "gh"
+      "ghostty"
+      "gnupg"
+      "granted"
+      "i3status"
+      "kitty"
+      "lesspipe"
+      "mu"
+      "msmtp"
+      "nheko"
+      "nix"
+      "nix-index"
+      "nix-your-shell"
+      "ollama"
+      "openstackclient"
+      "papis"
+      "pay-respects"
+      "pls"
+      "pyenv"
+      "sagemath"
+      "sapling"
+      "scmpuff"
+      "sm64ex"
+      "thefuck"
+      "wezterm"
+      "yubikey-agent"
+      "zellij"
+      "zplug"
+      "zsh"
+    ];
+
+    inner = self: super:
+      lib.mapAttrs (name: value:
+        if lib.elem name packagesToScrub then
+        # Apply scrubbing to this specific package
+          scrubDerivation name value
+        else
+          value) super;
+
+    outer = self: super:
+      inner self super // {
+        buildPackages = super.buildPackages.extend inner;
+      };
+  in outer;
+
   scrubbedPkgs =
-    let rawScrubbedPkgs = lib.makeExtensible (final: scrubDerivations pkgs);
-    in builtins.traceVerbose "eval scrubbed nixpkgs"
-    (rawScrubbedPkgs.extend whitelist);
+    # TODO: fix darwin stdenv stubbing
+    if isDarwin then
+      let rawPkgs = lib.makeExtensible (final: pkgs);
+      in builtins.traceVerbose "eval scrubbed darwin nixpkgs"
+      (rawPkgs.extend darwinBlacklist)
+    else
+      let rawScrubbedPkgs = lib.makeExtensible (final: scrubDerivations pkgs);
+      in builtins.traceVerbose "eval scrubbed nixpkgs"
+      (rawScrubbedPkgs.extend whitelist);
 
   modules = import ../modules/modules.nix {
     inherit lib pkgs;
@@ -92,7 +153,7 @@ let
 
       # Fix impurities. Without these some of the user's environment
       # will leak into the tests through `builtins.getEnv`.
-      xdg.enable = true;
+      xdg.enable = lib.mkDefault true;
       home = {
         username = "hm-user";
         homeDirectory = "/home/hm-user";
@@ -124,6 +185,7 @@ in import nmtSrc {
     ./modules/misc/manual
     ./modules/misc/nix
     ./modules/misc/specialisation
+    ./modules/misc/xdg
     ./modules/programs/aerc
     ./modules/programs/alacritty
     ./modules/programs/alot
@@ -189,6 +251,7 @@ in import nmtSrc {
     ./modules/programs/mbsync
     ./modules/programs/micro
     ./modules/programs/mise
+    ./modules/programs/mods
     ./modules/programs/mpv
     ./modules/programs/mu
     ./modules/programs/mujmap
@@ -244,7 +307,6 @@ in import nmtSrc {
     ./modules/programs/translate-shell
     ./modules/programs/vifm
     ./modules/programs/vim-vint
-    ./modules/programs/vinegar
     ./modules/programs/vscode
     ./modules/programs/watson
     ./modules/programs/wezterm
@@ -265,10 +327,12 @@ in import nmtSrc {
     ./modules/services/git-sync-darwin
     ./modules/services/imapnotify-darwin
     ./modules/services/nix-gc-darwin
+    ./modules/services/macos-remap-keys
     ./modules/services/ollama/darwin
     ./modules/services/yubikey-agent-darwin
     ./modules/targets-darwin
   ] ++ lib.optionals isLinux [
+    ./modules/misc/xdg/linux.nix
     ./modules/config/home-cursor
     ./modules/config/i18n
     ./modules/i18n/input-method
@@ -278,7 +342,6 @@ in import nmtSrc {
     ./modules/misc/numlock
     ./modules/misc/pam
     ./modules/misc/qt
-    ./modules/misc/xdg
     ./modules/misc/xsession
     ./modules/programs/abook
     ./modules/programs/autorandr
@@ -316,6 +379,7 @@ in import nmtSrc {
     ./modules/programs/swayr
     ./modules/programs/terminator
     ./modules/programs/tofi
+    ./modules/programs/vinegar
     ./modules/programs/waybar
     ./modules/programs/wlogout
     ./modules/programs/wofi

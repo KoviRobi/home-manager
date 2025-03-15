@@ -264,7 +264,7 @@ in {
     xsession.windowManager.i3 = {
       enable = mkEnableOption "i3 window manager";
 
-      package = mkPackageOption pkgs "i3" { };
+      package = mkPackageOption pkgs "i3" { nullable = true; };
 
       config = mkOption {
         type = types.nullOr configModule;
@@ -288,7 +288,7 @@ in {
           platforms.linux)
       ];
 
-      home.packages = [ cfg.package ];
+      home.packages = lib.mkIf (cfg.package != null) [ cfg.package ];
 
       xsession.windowManager.command = "${cfg.package}/bin/i3";
 
