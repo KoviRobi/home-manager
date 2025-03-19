@@ -217,6 +217,7 @@ let
     ./programs/qutebrowser.nix
     ./programs/ranger.nix
     ./programs/rbw.nix
+    ./programs/rclone.nix
     ./programs/readline.nix
     ./programs/rio.nix
     ./programs/ripgrep.nix
@@ -268,6 +269,7 @@ let
     ./programs/pywal.nix
     ./programs/rbenv.nix
     ./programs/watson.nix
+    ./programs/waylogout.nix
     ./programs/waybar.nix
     ./programs/wezterm.nix
     ./programs/wlogout.nix
@@ -394,6 +396,7 @@ let
     ./services/swayidle.nix
     ./services/swaync.nix
     ./services/swayosd.nix
+    ./services/swww.nix
     ./services/sxhkd.nix
     ./services/syncthing.nix
     ./services/systembus-notify.nix
