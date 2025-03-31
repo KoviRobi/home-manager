@@ -24,6 +24,12 @@
     github = "afresquet";
     githubId = 29437693;
   };
+  aguirre-matteo = {
+    name = "aguirre-matteo";
+    email = "aguirre.matteo.nix@gmail.com";
+    github = "aguirre-matteo";
+    githubId = 158215792;
+  };
   amesgen = {
     name = "amesgen";
     email = "amesgen@amesgen.de";
@@ -59,6 +65,12 @@
     email = "berto.f@protonmail.com";
     github = "bertof";
     githubId = 9915675;
+  };
+  bmrips = {
+    name = "Benedikt Rips";
+    email = "benedikt.rips@gmail.com";
+    github = "bmrips";
+    githubId = 20407973;
   };
   bricked = {
     name = "Bricked";
@@ -297,6 +309,12 @@
     email = "mifom@users.noreply.github.com";
     github = "mifom";
     githubId = 23462908;
+  };
+  msyds = {
+    name = "Madeleine Sydney Ślaga";
+    email = "65362461+msyds@users.noreply.github.com";
+    github = "msyds";
+    githubId = 65362461;
   };
   nikp123 = {
     name = "nikp123";
@@ -713,5 +731,11 @@
     email = "contact@nathanielbarragan.xyz";
     github = "Noodlez1232";
     githubId = 12480453;
+  };
+  michaelvanstraten = {
+    name = "Michael van Straten";
+    email = "michael@vanstraten.de";
+    github = "michaelvanstraten";
+    githubId = 50352631;
   };
 }

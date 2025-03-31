@@ -89,14 +89,7 @@ in {
   options.programs.kitty = {
     enable = mkEnableOption "Kitty terminal emulator";
 
-    package = mkOption {
-      type = types.package;
-      default = pkgs.kitty;
-      defaultText = literalExpression "pkgs.kitty";
-      description = ''
-        Kitty package to install.
-      '';
-    };
+    package = lib.mkPackageOption pkgs "kitty" { };
 
     darwinLaunchOptions = mkOption {
       type = types.nullOr (types.listOf types.str);
@@ -282,7 +275,7 @@ in {
     programs.fish.interactiveShellInit =
       mkIf cfg.shellIntegration.enableFishIntegration shellIntegrationInit.fish;
 
-    programs.zsh.initExtra =
+    programs.zsh.initContent =
       mkIf cfg.shellIntegration.enableZshIntegration shellIntegrationInit.zsh;
   };
 }

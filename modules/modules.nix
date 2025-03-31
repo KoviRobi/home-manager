@@ -88,6 +88,7 @@ let
     ./programs/dircolors.nix
     ./programs/direnv.nix
     ./programs/discocss.nix
+    ./programs/distrobox.nix
     ./programs/earthly.nix
     ./programs/eclipse.nix
     ./programs/emacs.nix
@@ -131,6 +132,7 @@ let
     ./programs/i3blocks.nix
     ./programs/i3status-rust.nix
     ./programs/i3status.nix
+    ./programs/iamb.nix
     ./programs/imv.nix
     ./programs/info.nix
     ./programs/ion.nix
@@ -152,6 +154,7 @@ let
     ./programs/kodi.nix
     ./programs/kubecolor.nix
     ./programs/lapce.nix
+    ./programs/lazydocker.nix
     ./programs/lazygit.nix
     ./programs/ledger.nix
     ./programs/less.nix
@@ -167,6 +170,7 @@ let
     ./programs/mbsync.nix
     ./programs/mcfly.nix
     ./programs/mercurial.nix
+    ./programs/mergiraf.nix
     ./programs/micro.nix
     ./programs/mise.nix
     ./programs/mods.nix
@@ -195,6 +199,7 @@ let
     ./programs/octant.nix
     ./programs/offlineimap.nix
     ./programs/oh-my-posh.nix
+    ./programs/onlyoffice.nix
     ./programs/opam.nix
     ./programs/openstackclient.nix
     ./programs/pandoc.nix
@@ -221,6 +226,7 @@ let
     ./programs/readline.nix
     ./programs/rio.nix
     ./programs/ripgrep.nix
+    ./programs/ripgrep-all.nix
     ./programs/rofi-pass.nix
     ./programs/rofi.nix
     ./programs/rtorrent.nix
@@ -231,6 +237,7 @@ let
     ./programs/scmpuff.nix
     ./programs/script-directory.nix
     ./programs/senpai.nix
+    ./programs/sesh.nix
     ./programs/sftpman.nix
     ./programs/sioyek.nix
     ./programs/skim.nix
@@ -246,6 +253,7 @@ let
     ./programs/tealdeer.nix
     ./programs/terminator.nix
     ./programs/termite.nix
+    ./programs/tex-fmt.nix
     ./programs/texlive.nix
     ./programs/thefuck.nix
     ./programs/thunderbird.nix
@@ -311,6 +319,7 @@ let
     ./services/conky.nix
     ./services/copyq.nix
     ./services/darkman.nix
+    ./services/davmail.nix
     ./services/devilspie2.nix
     ./services/dropbox.nix
     ./services/dunst.nix
@@ -334,16 +343,20 @@ let
     ./services/hound.nix
     ./services/hypridle.nix
     ./services/hyprpaper.nix
+    ./services/hyprpolkitagent.nix
     ./services/imapnotify.nix
+    ./services/jankyborders.nix
     ./services/kanshi.nix
     ./services/kbfs.nix
     ./services/kdeconnect.nix
     ./services/keybase.nix
     ./services/keynav.nix
+    ./services/librespot.nix
     ./services/lieer.nix
     ./services/linux-wallpaperengine.nix
     ./services/listenbrainz-mpd.nix
     ./services/lorri.nix
+    ./services/lxqt-policykit-agent.nix
     ./services/macos-remap-keys
     ./services/mako.nix
     ./services/mbsync.nix
@@ -351,6 +364,7 @@ let
     ./services/mopidy.nix
     ./services/mpd.nix
     ./services/mpdris2.nix
+    ./services/mpdscribble.nix
     ./services/mpd-discord-rpc.nix
     ./services/mpd-mpris.nix
     ./services/mpris-proxy.nix
@@ -373,6 +387,7 @@ let
     ./services/playerctld.nix
     ./services/plex-mpv-shim.nix
     ./services/podman-linux
+    ./services/polkit-gnome.nix
     ./services/polybar.nix
     ./services/poweralertd.nix
     ./services/psd.nix
@@ -388,6 +403,7 @@ let
     ./services/screen-locker.nix
     ./services/sctd.nix
     ./services/signaturepdf.nix
+    ./services/skhd.nix
     ./services/snixembed.nix
     ./services/spotifyd.nix
     ./services/ssh-agent.nix

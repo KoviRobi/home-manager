@@ -12,12 +12,7 @@ in {
   options.programs.opam = {
     enable = mkEnableOption "Opam";
 
-    package = mkOption {
-      type = types.package;
-      default = pkgs.opam;
-      defaultText = literalExpression "pkgs.opam";
-      description = "Opam package to install.";
-    };
+    package = lib.mkPackageOption pkgs "opam" { };
 
     enableBashIntegration =
       lib.hm.shell.mkBashIntegrationOption { inherit config; };
@@ -36,7 +31,7 @@ in {
       eval "$(${cfg.package}/bin/opam env --shell=bash)"
     '';
 
-    programs.zsh.initExtra = mkIf cfg.enableZshIntegration ''
+    programs.zsh.initContent = mkIf cfg.enableZshIntegration ''
       eval "$(${cfg.package}/bin/opam env --shell=zsh)"
     '';
 

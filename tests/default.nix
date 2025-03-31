@@ -111,6 +111,7 @@ let
       "hyfetch"
       "i3status"
       "irssi"
+      "jankyborders"
       "jujutsu"
       "joplin-desktop"
       "jqp"
@@ -121,6 +122,8 @@ let
       "kitty"
       "kubecolor"
       "lapce"
+      "lazydocker"
+      "lazygit"
       "ledger"
       "less"
       "lesspipe"
@@ -128,6 +131,7 @@ let
       "lsd"
       "lieer"
       "mbsync"
+      "mergiraf"
       "micro"
       "mise"
       "mpv"
@@ -142,6 +146,7 @@ let
       "nix-index"
       "nix-your-shell"
       "ollama"
+      "onlyoffice-desktopeditors"
       "openstackclient"
       "papis"
       "pay-respects"
@@ -165,6 +170,7 @@ let
       "senpai"
       "sftpman"
       "sioyek"
+      "skhd"
       "sm64ex"
       "spotify-player"
       "starship"
@@ -328,6 +334,7 @@ in import nmtSrc {
     ./modules/programs/kubecolor
     ./modules/programs/lapce
     ./modules/programs/ledger
+    ./modules/programs/lazydocker
     ./modules/programs/less
     ./modules/programs/lesspipe
     ./modules/programs/lf
@@ -335,6 +342,7 @@ in import nmtSrc {
     ./modules/programs/lieer
     ./modules/programs/man
     ./modules/programs/mbsync
+    ./modules/programs/mergiraf
     ./modules/programs/micro
     ./modules/programs/mise
     ./modules/programs/mods
@@ -353,6 +361,7 @@ in import nmtSrc {
     ./modules/programs/nnn
     ./modules/programs/nushell
     ./modules/programs/oh-my-posh
+    ./modules/programs/onlyoffice
     ./modules/programs/openstackclient
     ./modules/programs/pandoc
     ./modules/programs/papis
@@ -370,12 +379,14 @@ in import nmtSrc {
     ./modules/programs/readline
     ./modules/programs/rio
     ./modules/programs/ripgrep
+    ./modules/programs/ripgrep-all
     ./modules/programs/ruff
     ./modules/programs/sagemath
     ./modules/programs/sapling
     ./modules/programs/sbt
     ./modules/programs/scmpuff
     ./modules/programs/senpai
+    ./modules/programs/sesh
     ./modules/programs/sftpman
     ./modules/programs/sioyek
     ./modules/programs/sm64ex
@@ -384,6 +395,7 @@ in import nmtSrc {
     ./modules/programs/starship
     ./modules/programs/taskwarrior
     ./modules/programs/tealdeer
+    ./modules/programs/tex-fmt
     ./modules/programs/texlive
     ./modules/programs/thefuck
     ./modules/programs/thunderbird
@@ -412,9 +424,11 @@ in import nmtSrc {
     ./modules/services/espanso-darwin
     ./modules/services/git-sync-darwin
     ./modules/services/imapnotify-darwin
-    ./modules/services/nix-gc-darwin
+    ./modules/services/jankyborders
     ./modules/services/macos-remap-keys
+    ./modules/services/nix-gc-darwin
     ./modules/services/ollama/darwin
+    ./modules/services/skhd
     ./modules/services/yubikey-agent-darwin
     ./modules/targets-darwin
   ] ++ lib.optionals isLinux [
@@ -436,6 +450,7 @@ in import nmtSrc {
     ./modules/programs/bemenu
     ./modules/programs/boxxy
     ./modules/programs/cavalier
+    ./modules/programs/distrobox
     ./modules/programs/eww
     ./modules/programs/firefox
     ./modules/programs/firefox/firefox.nix
@@ -485,6 +500,7 @@ in import nmtSrc {
     ./modules/services/copyq
     ./modules/services/conky
     ./modules/services/darkman
+    ./modules/services/davmail
     ./modules/services/devilspie2
     ./modules/services/dropbox
     ./modules/services/easyeffects
@@ -500,14 +516,17 @@ in import nmtSrc {
     ./modules/services/home-manager-auto-upgrade
     ./modules/services/hypridle
     ./modules/services/hyprpaper
+    ./modules/services/hyprpolkitagent
     ./modules/services/imapnotify
     ./modules/services/kanshi
     ./modules/services/lieer
     ./modules/services/linux-wallpaperengine
+    ./modules/services/lxqt-policykit-agent
     ./modules/services/mopidy
     ./modules/services/mpd
     ./modules/services/mpd-mpris
     ./modules/services/mpdris2
+    ./modules/services/mpdscribble
     ./modules/services/nix-gc
     ./modules/services/ollama/linux
     ./modules/services/osmscout-server
@@ -519,6 +538,7 @@ in import nmtSrc {
     ./modules/services/picom
     ./modules/services/playerctld
     ./modules/services/podman-linux
+    ./modules/services/polkit-gnome
     ./modules/services/polybar
     ./modules/services/recoll
     ./modules/services/redshift-gammastep

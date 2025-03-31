@@ -167,6 +167,16 @@ let
         '';
       };
 
+      command = mkOption {
+        type = with types; nullOr str;
+        default = null;
+        description = ''
+          Specifies the command(s) for which the abbreviation should expand. If
+          set, the abbreviation will only expand when used as an argument to
+          the given command(s).
+        '';
+      };
+
       setCursor = mkOption {
         type = with types; (either bool str);
         default = false;
@@ -201,7 +211,7 @@ let
               (lib.generators.mkValueStringDefault { } v)
             ];
         } {
-          inherit position regex function;
+          inherit position regex command function;
           set-cursor = setCursor;
         };
       modifiers = if isAttrs def then mods else "";
@@ -244,14 +254,7 @@ in {
     programs.fish = {
       enable = mkEnableOption "fish, the friendly interactive shell";
 
-      package = mkOption {
-        type = types.package;
-        default = pkgs.fish;
-        defaultText = literalExpression "pkgs.fish";
-        description = ''
-          The fish package to install. May be used to change the version.
-        '';
-      };
+      package = lib.mkPackageOption pkgs "fish" { };
 
       generateCompletions = mkEnableOption
         "the automatic generation of completions based upon installed man pages"
@@ -439,7 +442,7 @@ in {
           for src in $srcs; do
             if [ -d $src/share/man ]; then
               find -L $src/share/man -type f \
-                | xargs python ${cfg.package}/share/fish/tools/create_manpage_completions.py --directory $out \
+                -exec python ${cfg.package}/share/fish/tools/create_manpage_completions.py --directory $out {} + \
                 > /dev/null
             fi
           done
