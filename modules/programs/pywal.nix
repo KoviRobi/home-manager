@@ -1,15 +1,24 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.programs.pywal;
+in
+{
+  options = {
+    programs.pywal = {
+      enable = lib.mkEnableOption "pywal";
 
-with lib;
+      package = lib.mkPackageOption pkgs "pywal" { };
+    };
+  };
 
-let cfg = config.programs.pywal;
+  config = lib.mkIf cfg.enable {
 
-in {
-  options = { programs.pywal = { enable = mkEnableOption "pywal"; }; };
-
-  config = mkIf cfg.enable {
-
-    home.packages = [ pkgs.pywal ];
+    home.packages = [ cfg.package ];
 
     programs.zsh.initContent = ''
       # Import colorscheme from 'wal' asynchronously
@@ -22,13 +31,14 @@ in {
       include ${config.xdg.cacheHome}/wal/colors-kitty.conf
     '';
 
-    programs.rofi.theme."@import" =
-      "${config.xdg.cacheHome}/wal/colors-rofi-dark.rasi";
+    programs.rofi.theme."@import" = "${config.xdg.cacheHome}/wal/colors-rofi-dark.rasi";
 
-    programs.neovim.plugins = [{
-      plugin = pkgs.vimPlugins.pywal-nvim;
-      type = "lua";
-    }];
+    programs.neovim.plugins = [
+      {
+        plugin = pkgs.vimPlugins.pywal-nvim;
+        type = "lua";
+      }
+    ];
 
     # wal generates and that's the one we should load from /home/teto/.cache/wal/colors.Xresources ~/.Xresources
     xsession.windowManager.i3 = {
@@ -78,4 +88,3 @@ in {
     };
   };
 }
-

@@ -1,25 +1,27 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
+  inherit (lib) mkIf mkOption types;
 
   cfg = config.programs.keychain;
 
-  flags = cfg.extraFlags ++ optional (cfg.agents != [ ])
-    "--agents ${concatStringsSep "," cfg.agents}"
-    ++ optional (cfg.inheritType != null) "--inherit ${cfg.inheritType}";
+  flags =
+    cfg.extraFlags
+    ++ lib.optional (cfg.agents != [ ]) "--agents ${lib.concatStringsSep "," cfg.agents}"
+    ++ lib.optional (cfg.inheritType != null) "--inherit ${cfg.inheritType}";
 
-  shellCommand =
-    "${cfg.package}/bin/keychain --eval ${concatStringsSep " " flags} ${
-      concatStringsSep " " cfg.keys
-    }";
+  shellCommand = "${cfg.package}/bin/keychain --eval ${lib.concatStringsSep " " flags} ${lib.concatStringsSep " " cfg.keys}";
 
-in {
+in
+{
   meta.maintainers = [ ];
 
   options.programs.keychain = {
-    enable = mkEnableOption "keychain";
+    enable = lib.mkEnableOption "keychain";
 
     package = lib.mkPackageOption pkgs "keychain" { };
 
@@ -40,8 +42,14 @@ in {
     };
 
     inheritType = mkOption {
-      type =
-        types.nullOr (types.enum [ "local" "any" "local-once" "any-once" ]);
+      type = types.nullOr (
+        types.enum [
+          "local"
+          "any"
+          "local-once"
+          "any-once"
+        ]
+      );
       default = null;
       description = ''
         Inherit type to attempt from agent variables from the environment.
@@ -56,17 +64,13 @@ in {
       '';
     };
 
-    enableBashIntegration =
-      lib.hm.shell.mkBashIntegrationOption { inherit config; };
+    enableBashIntegration = lib.hm.shell.mkBashIntegrationOption { inherit config; };
 
-    enableFishIntegration =
-      lib.hm.shell.mkFishIntegrationOption { inherit config; };
+    enableFishIntegration = lib.hm.shell.mkFishIntegrationOption { inherit config; };
 
-    enableNushellIntegration =
-      lib.hm.shell.mkNushellIntegrationOption { inherit config; };
+    enableNushellIntegration = lib.hm.shell.mkNushellIntegrationOption { inherit config; };
 
-    enableZshIntegration =
-      lib.hm.shell.mkZshIntegrationOption { inherit config; };
+    enableZshIntegration = lib.hm.shell.mkZshIntegrationOption { inherit config; };
 
     enableXsessionIntegration = mkOption {
       default = true;

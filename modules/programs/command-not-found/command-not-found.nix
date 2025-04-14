@@ -1,9 +1,11 @@
 # Adapted from Nixpkgs.
 
-{ config, lib, pkgs, ... }:
-
-with lib;
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.programs.command-not-found;
   commandNotFound = pkgs.substituteAll {
@@ -12,7 +14,10 @@ let
     src = ./command-not-found.pl;
     isExecutable = true;
     inherit (cfg) dbPath;
-    perl = pkgs.perl.withPackages (p: [ p.DBDSQLite p.StringShellQuote ]);
+    perl = pkgs.perl.withPackages (p: [
+      p.DBDSQLite
+      p.StringShellQuote
+    ]);
   };
 
   shInit = commandNotFoundHandlerName: ''
@@ -29,23 +34,23 @@ let
     }
   '';
 
-in {
+in
+{
   options.programs.command-not-found = {
-    enable = mkEnableOption "command-not-found hook for interactive shell";
+    enable = lib.mkEnableOption "command-not-found hook for interactive shell";
 
-    dbPath = mkOption {
-      default =
-        "/nix/var/nix/profiles/per-user/root/channels/nixos/programs.sqlite";
+    dbPath = lib.mkOption {
+      default = "/nix/var/nix/profiles/per-user/root/channels/nixos/programs.sqlite";
       description = ''
         Absolute path to {file}`programs.sqlite`. By
         default this file will be provided by your channel
         (nixexprs.tar.xz).
       '';
-      type = types.path;
+      type = lib.types.path;
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     programs.bash.initExtra = shInit "command_not_found_handle";
     programs.zsh.initContent = shInit "command_not_found_handler";
 

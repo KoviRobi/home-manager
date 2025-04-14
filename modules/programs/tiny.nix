@@ -1,27 +1,32 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.programs.tiny;
   format = pkgs.formats.yaml { };
-  configDir = if pkgs.stdenv.isDarwin then
-    "Library/Application Support/tiny"
-  else
-    "${config.xdg.configHome}/tiny";
-in {
-  meta.maintainers = [ hm.maintainers.kmaasrud ];
+  configDir =
+    if pkgs.stdenv.isDarwin then
+      "Library/Application Support/tiny"
+    else
+      "${config.xdg.configHome}/tiny";
+in
+{
+  meta.maintainers = [ lib.hm.maintainers.kmaasrud ];
 
   options = {
     programs.tiny = {
-      enable = mkEnableOption "tiny, a TUI IRC client written in Rust";
+      enable = lib.mkEnableOption "tiny, a TUI IRC client written in Rust";
 
       package = lib.mkPackageOption pkgs "tiny" { };
 
-      settings = mkOption {
+      settings = lib.mkOption {
         type = format.type;
         default = { };
-        defaultText = literalExpression "{ }";
-        example = literalExpression ''
+        defaultText = lib.literalExpression "{ }";
+        example = lib.literalExpression ''
           {
             servers = [
               {
@@ -50,10 +55,10 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = [ cfg.package ];
 
-    home.file."${configDir}/config.yml" = mkIf (cfg.settings != { }) {
+    home.file."${configDir}/config.yml" = lib.mkIf (cfg.settings != { }) {
       source = format.generate "tiny-config" cfg.settings;
     };
   };
