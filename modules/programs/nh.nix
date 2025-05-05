@@ -1,15 +1,11 @@
 {
   config,
-  osConfig,
   lib,
   pkgs,
   ...
 }:
-
 let
-
   cfg = config.programs.nh;
-
 in
 {
   meta.maintainers = with lib.maintainers; [ johnrtitor ];
@@ -20,7 +16,7 @@ in
     package = lib.mkPackageOption pkgs "nh" { };
 
     flake = lib.mkOption {
-      type = lib.types.nullOr lib.types.singleLineStr;
+      type = with lib.types; nullOr (either singleLineStr path);
       default = null;
       description = ''
         The path that will be used for the {env}`FLAKE` environment variable.
@@ -60,12 +56,8 @@ in
 
   config = {
     warnings =
-      (lib.optional (cfg.clean.enable && osConfig != null && osConfig.nix.gc.automatic)
-        "programs.nh.clean.enable and nix.gc.automatic (system-wide in configuration.nix) are both enabled. Please use one or the other to avoid conflict."
-      )
-      ++ (lib.optional (cfg.clean.enable && config.nix.gc.automatic)
-        "programs.nh.clean.enable and nix.gc.automatic (Home-Manager) are both enabled. Please use one or the other to avoid conflict."
-      );
+      lib.optional (cfg.clean.enable && config.nix.gc.automatic)
+        "programs.nh.clean.enable and nix.gc.automatic (Home-Manager) are both enabled. Please use one or the other to avoid conflict.";
 
     home = lib.mkIf cfg.enable {
       packages = [ cfg.package ];

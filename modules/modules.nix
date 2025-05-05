@@ -84,7 +84,9 @@ let
       ./programs/carapace.nix
       ./programs/cava.nix
       ./programs/cavalier.nix
+      ./programs/chawan.nix
       ./programs/chromium.nix
+      ./programs/clock-rs.nix
       ./programs/cmus.nix
       ./programs/command-not-found/command-not-found.nix
       ./programs/comodoro.nix
@@ -95,6 +97,7 @@ let
       ./programs/distrobox.nix
       ./programs/earthly.nix
       ./programs/eclipse.nix
+      ./programs/element-desktop.nix
       ./programs/emacs.nix
       ./programs/eww.nix
       ./programs/eza.nix
@@ -133,12 +136,14 @@ let
       ./programs/htop.nix
       ./programs/hyfetch.nix
       ./programs/hyprlock.nix
+      ./programs/i3bar-river.nix
       ./programs/i3blocks.nix
       ./programs/i3status-rust.nix
       ./programs/i3status.nix
       ./programs/iamb.nix
       ./programs/imv.nix
       ./programs/info.nix
+      ./programs/inori.nix
       ./programs/ion.nix
       ./programs/irssi.nix
       ./programs/java.nix
@@ -151,9 +156,11 @@ let
       ./programs/just.nix
       ./programs/k9s.nix
       ./programs/kakoune.nix
+      ./programs/keepassxc.nix
       ./programs/keychain.nix
       ./programs/khal.nix
       ./programs/khard.nix
+      ./programs/kickoff.nix
       ./programs/kitty.nix
       ./programs/kodi.nix
       ./programs/kubecolor.nix
@@ -179,6 +186,7 @@ let
       ./programs/mise.nix
       ./programs/mods.nix
       ./programs/mpv.nix
+      ./programs/mpvpaper.nix
       ./programs/mr.nix
       ./programs/msmtp.nix
       ./programs/mu.nix
@@ -194,6 +202,7 @@ let
       ./programs/nh.nix
       ./programs/nheko.nix
       ./programs/nix-index.nix
+      ./programs/nix-init.nix
       ./programs/nix-your-shell.nix
       ./programs/nnn.nix
       ./programs/noti.nix
@@ -203,6 +212,8 @@ let
       ./programs/octant.nix
       ./programs/offlineimap.nix
       ./programs/oh-my-posh.nix
+      ./programs/onagre.nix
+      ./programs/onedrive.nix
       ./programs/onlyoffice.nix
       ./programs/opam.nix
       ./programs/openstackclient.nix
@@ -231,6 +242,7 @@ let
       ./programs/rio.nix
       ./programs/ripgrep.nix
       ./programs/ripgrep-all.nix
+      ./programs/rmpc.nix
       ./programs/rofi-pass.nix
       ./programs/rofi.nix
       ./programs/rtorrent.nix
@@ -252,11 +264,14 @@ let
       ./programs/ssh.nix
       ./programs/starship.nix
       ./programs/streamlink.nix
+      ./programs/superfile.nix
+      ./programs/sway-easyfocus.nix
       ./programs/swayimg.nix
       ./programs/swaylock.nix
       ./programs/swayr.nix
       ./programs/taskwarrior.nix
       ./programs/tealdeer.nix
+      ./programs/television.nix
       ./programs/terminator.nix
       ./programs/termite.nix
       ./programs/tex-fmt.nix
@@ -273,15 +288,20 @@ let
       ./programs/topgrade.nix
       ./programs/translate-shell.nix
       ./programs/urxvt.nix
+      ./programs/uv.nix
       ./programs/vdirsyncer.nix
+      ./programs/vesktop.nix
       ./programs/vifm.nix
+      ./programs/vim.nix
       ./programs/vim-vint.nix
       ./programs/vim.nix
       ./programs/vinegar.nix
       ./programs/vscode.nix
       ./programs/vscode/haskell.nix
+      ./programs/visidata.nix
       ./programs/pywal.nix
       ./programs/rbenv.nix
+      ./programs/wallust.nix
       ./programs/watson.nix
       ./programs/waylogout.nix
       ./programs/waybar.nix
@@ -317,6 +337,7 @@ let
       ./services/cachix-agent.nix
       ./services/caffeine.nix
       ./services/cbatticon.nix
+      ./services/clipcat.nix
       ./services/cliphist.nix
       ./services/clipman.nix
       ./services/clipmenu.nix
@@ -406,10 +427,12 @@ let
       ./services/redshift-gammastep/gammastep.nix
       ./services/redshift-gammastep/redshift.nix
       ./services/remmina.nix
+      ./services/restic.nix
       ./services/rsibreak.nix
       ./services/safeeyes.nix
       ./services/screen-locker.nix
       ./services/sctd.nix
+      ./services/shikane.nix
       ./services/signaturepdf.nix
       ./services/skhd.nix
       ./services/snixembed.nix
@@ -445,6 +468,7 @@ let
       ./services/window-managers/i3-sway/i3.nix
       ./services/window-managers/i3-sway/sway.nix
       ./services/window-managers/i3-sway/swaynag.nix
+      ./services/window-managers/labwc/labwc.nix
       ./services/window-managers/river.nix
       ./services/window-managers/spectrwm.nix
       ./services/window-managers/wayfire.nix
