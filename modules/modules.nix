@@ -127,6 +127,7 @@ let
       ./programs/gpg.nix
       ./programs/gradle.nix
       ./programs/granted.nix
+      ./programs/halloy.nix
       ./programs/havoc.nix
       ./programs/helix.nix
       ./programs/hexchat.nix
@@ -175,6 +176,7 @@ let
       ./programs/lieer.nix
       ./programs/looking-glass-client.nix
       ./programs/lsd.nix
+      ./programs/lutris.nix
       ./programs/man.nix
       ./programs/mangohud.nix
       ./programs/matplotlib.nix
@@ -207,6 +209,7 @@ let
       ./programs/nnn.nix
       ./programs/noti.nix
       ./programs/notmuch.nix
+      ./programs/numbat.nix
       ./programs/nushell.nix
       ./programs/obs-studio.nix
       ./programs/octant.nix
@@ -223,6 +226,7 @@ let
       ./programs/pay-respects.nix
       ./programs/pazi.nix
       ./programs/pet.nix
+      ./programs/pgcli.nix
       ./programs/pidgin.nix
       ./programs/pistol.nix
       ./programs/piston-cli.nix
@@ -230,6 +234,7 @@ let
       ./programs/poetry.nix
       ./programs/powerline-go.nix
       ./programs/pqiv.nix
+      ./programs/ptyxis.nix
       ./programs/pubs.nix
       ./programs/pyenv.nix
       ./programs/pylint.nix
@@ -292,7 +297,6 @@ let
       ./programs/vdirsyncer.nix
       ./programs/vesktop.nix
       ./programs/vifm.nix
-      ./programs/vim.nix
       ./programs/vim-vint.nix
       ./programs/vim.nix
       ./programs/vinegar.nix
@@ -303,8 +307,10 @@ let
       ./programs/rbenv.nix
       ./programs/wallust.nix
       ./programs/watson.nix
+      ./programs/waveterm.nix
       ./programs/waylogout.nix
       ./programs/waybar.nix
+      ./programs/wayprompt.nix
       ./programs/wezterm.nix
       ./programs/wlogout.nix
       ./programs/wofi.nix
@@ -358,6 +364,7 @@ let
       ./services/flameshot.nix
       ./services/fluidsynth.nix
       ./services/fnott.nix
+      ./programs/foliate.nix
       ./services/fusuma.nix
       ./services/getmail.nix
       ./services/git-sync.nix
@@ -485,6 +492,7 @@ let
       ./services/xsuspender.nix
       ./services/yubikey-agent.nix
       ./systemd.nix
+      ./dbus.nix
       ./targets/darwin
       ./targets/generic-linux.nix
       ./wayland.nix

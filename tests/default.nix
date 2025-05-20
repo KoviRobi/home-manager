@@ -41,11 +41,7 @@ let
       if lib.isDerivation value then scrubbedValue // newDrvAttrs else scrubbedValue
     else
       value;
-  scrubDerivations =
-    attrs:
-    let
-    in
-    lib.mapAttrs scrubDerivation attrs;
+  scrubDerivations = attrs: lib.mapAttrs scrubDerivation attrs;
 
   # Globally unscrub a few selected packages that are used by a wide selection of tests.
   whitelist =
@@ -261,6 +257,7 @@ import nmtSrc {
       ./modules/programs/nix-init
       ./modules/programs/nix-your-shell
       ./modules/programs/nnn
+      ./modules/programs/numbat
       ./modules/programs/nushell
       ./modules/programs/oh-my-posh
       ./modules/programs/onlyoffice
@@ -269,6 +266,7 @@ import nmtSrc {
       ./modules/programs/papis
       ./modules/programs/pay-respects
       ./modules/programs/pet
+      ./modules/programs/pgcli
       ./modules/programs/pistol
       ./modules/programs/pls
       ./modules/programs/poetry
@@ -317,6 +315,7 @@ import nmtSrc {
       ./modules/programs/vscode
       ./modules/programs/wallust
       ./modules/programs/watson
+      ./modules/programs/waveterm
       ./modules/programs/wezterm
       ./modules/programs/yazi
       ./modules/programs/zed-editor
@@ -332,9 +331,11 @@ import nmtSrc {
       ./modules/launchd
       ./modules/programs/aerospace
       ./modules/programs/element-desktop/darwin.nix
+      ./modules/services/borgmatic-darwin
       ./modules/services/emacs-darwin
       ./modules/services/espanso-darwin
       ./modules/services/git-sync-darwin
+      ./modules/services/home-manager-auto-expire-darwin
       ./modules/services/imapnotify-darwin
       ./modules/services/jankyborders
       ./modules/services/macos-remap-keys
@@ -367,12 +368,14 @@ import nmtSrc {
       ./modules/programs/distrobox
       ./modules/programs/element-desktop/linux.nix
       ./modules/programs/eww
+      ./modules/programs/foliate
       ./modules/programs/foot
       ./modules/programs/freetube
       ./modules/programs/fuzzel
       ./modules/programs/getmail
       ./modules/programs/gnome-shell
       ./modules/programs/gnome-terminal
+      ./modules/programs/halloy
       ./modules/programs/hexchat
       ./modules/programs/hyprlock
       ./modules/programs/i3bar-river
@@ -382,6 +385,7 @@ import nmtSrc {
       ./modules/programs/kodi
       ./modules/programs/kickoff
       ./modules/programs/looking-glass-client
+      ./modules/programs/lutris
       ./modules/programs/mangohud
       ./modules/programs/mpvpaper
       ./modules/programs/ncmpcpp-linux
@@ -389,6 +393,7 @@ import nmtSrc {
       ./modules/programs/onagre
       ./modules/programs/onedrive
       ./modules/programs/pqiv
+      ./modules/programs/ptyxis
       ./modules/programs/rbw
       ./modules/programs/rofi
       ./modules/programs/rofi-pass
@@ -401,6 +406,7 @@ import nmtSrc {
       ./modules/programs/vesktop
       ./modules/programs/vinegar
       ./modules/programs/waybar
+      ./modules/programs/wayprompt
       ./modules/programs/wlogout
       ./modules/programs/wofi
       ./modules/programs/xmobar
@@ -500,6 +506,7 @@ import nmtSrc {
       ./modules/services/yubikey-agent
       ./modules/systemd
       ./modules/targets-linux
+      ./modules/dbus
     ]
   );
 }

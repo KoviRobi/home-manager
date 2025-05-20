@@ -14,9 +14,30 @@ let
 
   cfg = config.services.mako;
 
-  generateConfig = lib.generators.toINIWithGlobalSection { };
-  iniType = (pkgs.formats.ini { }).type;
-  iniAtomType = (pkgs.formats.ini { }).lib.types.atom;
+  generateConfig =
+    config:
+    let
+      formatValue = v: if builtins.isBool v then if v then "true" else "false" else toString v;
+
+      globalSettings = lib.filterAttrs (n: v: !(lib.isAttrs v)) config;
+      sectionSettings = lib.filterAttrs (n: v: lib.isAttrs v) config;
+
+      globalLines = lib.concatStringsSep "\n" (
+        lib.mapAttrsToList (k: v: "${k}=${formatValue v}") globalSettings
+      );
+
+      formatSection =
+        name: attrs:
+        "\n[${name}]\n"
+        + lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "${k}=${formatValue v}") attrs);
+
+      sectionLines = lib.concatStringsSep "\n" (lib.mapAttrsToList formatSection sectionSettings);
+    in
+    if sectionSettings != { } then globalLines + "\n" + sectionLines + "\n" else globalLines + "\n";
+
+  iniFormat = pkgs.formats.ini { };
+  iniType = iniFormat.type;
+  iniAtomType = iniFormat.lib.types.atom;
 in
 {
   meta.maintainers = [ lib.maintainers.onny ];
@@ -56,10 +77,6 @@ in
         "ignoreTimeout"
         "groupBy"
       ];
-
-      mkSettingsRenamedOptionModules =
-        oldPrefix: newPrefix:
-        map (option: lib.mkRenamedOptionModule (oldPrefix ++ [ option ]) (newPrefix ++ [ option ]));
     in
     [
       (lib.mkRemovedOptionModule [
@@ -69,38 +86,52 @@ in
       ] "Use services.mako.settings instead.")
       (lib.mkRenamedOptionModule [ "services" "mako" "criterias" ] [ "services" "mako" "criteria" ])
     ]
-    ++ mkSettingsRenamedOptionModules basePath (basePath ++ [ "settings" ]) renamedOptions;
+    ++ lib.hm.deprecations.mkSettingsRenamedOptionModules basePath (basePath ++ [ "settings" ]) {
+      transform = lib.hm.strings.toKebabCase;
+    } renamedOptions;
 
   options.services.mako = {
     enable = mkEnableOption "mako";
     package = mkPackageOption pkgs "mako" { };
     settings = mkOption {
-      type = lib.types.attrsOf iniAtomType;
+      type = lib.types.attrsOf (
+        lib.types.oneOf [
+          iniAtomType
+          (lib.types.attrsOf iniAtomType)
+        ]
+      );
       default = { };
       example = ''
         {
-          actions = "true";
+          actions = true;
           anchor = "top-right";
-          backgroundColor = "#000000";
-          borderColor = "#FFFFFF";
-          borderRadius = "0";
-          defaultTimeout = "0";
+          background-color = "#000000";
+          border-color = "#FFFFFF";
+          border-radius = 0;
+          default-timeout = 0;
           font = "monospace 10";
-          height = "100";
-          width = "300";
-          icons = "true";
-          ignoreTimeout = "false";
+          height = 100;
+          width = 300;
+          icons = true;
+          ignore-timeout = false;
           layer = "top";
-          margin = "10";
-          markup = "true";
+          margin = 10;
+          markup = true;
+
+          # Section example
+          "actionable=true" = {
+            anchor = "top-left";
+          };
         }
       '';
       description = ''
-        Configuration settings for mako. All available options can be found
-        here: <https://github.com/emersion/mako/blob/master/doc/mako.5.scd>.
+        Configuration settings for mako. Can include both global settings and sections.
+        All available options can be found here:
+        <https://github.com/emersion/mako/blob/master/doc/mako.5.scd>.
       '';
     };
     criteria = mkOption {
+      visible = false;
       type = iniType;
       default = { };
       example = {
@@ -117,8 +148,21 @@ in
         };
       };
       description = ''
-        Criterias for mako's config. All the details can be found in the
+        Criteria for mako's config. All the details can be found in the
         CRITERIA section in the official documentation.
+
+        *Deprecated*: Use `settings` with nested attributes instead. For example:
+        ```nix
+        settings = {
+          # Global settings
+          anchor = "top-right";
+
+          # Criteria sections
+          "actionable=true" = {
+            anchor = "top-left";
+          };
+        };
+        ```
       '';
     };
   };
@@ -128,14 +172,41 @@ in
       (lib.hm.assertions.assertPlatform "services.mako" pkgs lib.platforms.linux)
     ];
 
+    warnings = lib.optional (cfg.criteria != { }) ''
+      The option `services.mako.criteria` is deprecated and will be removed in a future release.
+      Please use `services.mako.settings` with nested attributes instead.
+
+      For example, instead of:
+        criteria = {
+          "actionable=true" = {
+            anchor = "top-left";
+          };
+        };
+
+      Use:
+        settings = {
+          # Global settings here...
+
+          # Criteria sections
+          "actionable=true" = {
+            anchor = "top-left";
+          };
+        };
+    '';
+
     home.packages = [ cfg.package ];
+
+    dbus.packages = [ cfg.package ];
 
     xdg.configFile."mako/config" = mkIf (cfg.settings != { } || cfg.criteria != { }) {
       onChange = "${cfg.package}/bin/makoctl reload || true";
-      text = generateConfig {
-        globalSection = cfg.settings;
-        sections = cfg.criteria;
-      };
+      text =
+        let
+          # Merge settings and criteria into a single attribute set
+          # where settings are at the top level and criteria are nested attributes
+          mergedConfig = cfg.settings // cfg.criteria;
+        in
+        generateConfig mergedConfig;
     };
   };
 }
