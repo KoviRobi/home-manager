@@ -467,14 +467,7 @@ let
               "client.urgent ${colorSetStr colors.urgent}"
               "client.placeholder ${colorSetStr colors.placeholder}"
               "client.background ${colors.background}"
-              (keybindingsStr {
-                keybindings = keybindingDefaultWorkspace;
-                bindsymArgs = lib.optionalString (cfg.config.bindkeysToCode) "--to-code";
-              })
-              (keybindingsStr {
-                keybindings = keybindingsRest;
-                bindsymArgs = lib.optionalString (cfg.config.bindkeysToCode) "--to-code";
-              })
+              keybindingsStr
               (keycodebindingsStr keycodebindings)
             ]
             ++ optional (builtins.attrNames bindswitches != [ ]) (bindswitchesStr bindswitches)
