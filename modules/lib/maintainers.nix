@@ -121,14 +121,6 @@
     github = "danjujan";
     githubId = 44864658;
   };
-  delafthi = {
-    name = "Thierry Delafontaine";
-    email = "delafthi@pm.me";
-    matrix = "@delafthi:matrix.org";
-    github = "delafthi";
-    githubId = 50531499;
-    keys = [ { fingerprint = "6DBB 0BB9 AEE6 2C2A 8059  7E1C 0092 6686 9818 63CB"; } ];
-  };
   Dines97 = {
     name = "Denis Kaynar";
     email = "19364873+Dines97@users.noreply.github.com";
@@ -324,12 +316,6 @@
     github = "miku4k";
     githubId = 89653242;
   };
-  m0nsterrr = {
-    name = "Ludovic Ortega";
-    email = "nix@mail.adminafk.fr";
-    github = "M0NsTeRRR";
-    githubId = 37785089;
-  };
   mager = {
     email = "andreas@mager.eu";
     github = "AndreasMager";
@@ -488,7 +474,7 @@
   };
   zorrobert = {
     name = "zorrobert";
-    email = "zorrobert@mailbox.org";
+    email = "118135271+zorrobert@users.noreply.github.com";
     github = "zorrobert";
     githubId = 118135271;
   };
