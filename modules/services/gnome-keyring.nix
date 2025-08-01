@@ -16,7 +16,7 @@ in
     services.gnome-keyring = {
       enable = lib.mkEnableOption "GNOME Keyring";
 
-      wrapped = lib.mkEnableOption "using the NixOS wrapped gnome-keyring executable";
+      package = lib.mkPackageOption pkgs "gnome-keyring" { };
 
       components = lib.mkOption {
         type = lib.types.listOf (
@@ -70,7 +70,7 @@ in
               else
                 "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon";
           in
-          "${exe} ${args}";
+          "${lib.getExe' cfg.package "gnome-keyring-daemon"} ${args}";
         Restart = "on-abort";
       };
 
