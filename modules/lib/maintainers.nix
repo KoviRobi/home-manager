@@ -13,6 +13,12 @@
     github = "3ulalia";
     githubId = 179992797;
   };
+  "74k1" = {
+    name = "Tim";
+    email = "git.t@betsumei.com";
+    github = "74k1";
+    githubId = 49000471;
+  };
   "9p4" = {
     name = "9p4";
     email = "vcs@ersei.net";
@@ -139,6 +145,18 @@
     githubId = 32838899;
     name = "Daniel Wagenknecht";
   };
+  elanora96 = {
+    name = "Elanora Manson";
+    email = "git@elanora.lol";
+    github = "elanora96";
+    githubId = 27848938;
+  };
+  epixtm = {
+    name = "Epix";
+    email = "kami@epix.icu";
+    github = "epixtm";
+    githubId = 168025607;
+  };
   fendse = {
     email = "46252070+Fendse@users.noreply.github.com";
     github = "Fendse";
@@ -162,6 +180,11 @@
     email = "fpob@proton.me";
     github = "fpob";
     githubId = 6289078;
+  };
+  gauthsvenkat = {
+    email = "gauthsvenkat+home-manager@gmail.com";
+    github = "gauthsvenkat";
+    githubId = 26820345;
   };
   genericnerdyusername = {
     email = "genericnerdyusername@proton.me";
@@ -213,11 +236,11 @@
     github = "Janik-Haag";
     githubId = 80165193;
   };
-  jkarlson = {
-    email = "jekarlson@gmail.com";
-    github = "jkarlson";
-    githubId = 1204734;
-    name = "Emil Karlson";
+  joker9944 = {
+    name = "Felix von Arx";
+    email = "github@shroud.mozmail.com";
+    github = "Joker9944";
+    githubId = 9194199;
   };
   jonringer = {
     email = "jonringer117@gmail.com";
@@ -261,6 +284,12 @@
     email = "km@aasrud.com";
     github = "kmaasrud";
     githubId = 54394333;
+  };
+  Kyure-A = {
+    name = "Kyure_A";
+    email = "49436968+Kyure-A@users.noreply.github.com";
+    github = "Kyure-A";
+    githubId = 49436968;
   };
   LesVu = {
     name = "John Ferse";
@@ -424,6 +453,12 @@
     github = "pltanton";
     githubId = 4561823;
   };
+  poseidon-rises = {
+    name = "poseidon-rises";
+    email = "softwaredevelopment.stingray177@passinbox.com";
+    github = "poseidon-rises";
+    githubId = 179542264;
+  };
   rasmus-kirk = {
     name = "Rasmus Kirk";
     email = "mail@rasmuskirk.com";
@@ -448,6 +483,12 @@
     github = "Rosuavio";
     githubId = 7164552;
   };
+  rrvsh = {
+    name = "Mohammad Rafiq";
+    email = "rafiq@rrv.sh";
+    github = "rrvsh";
+    githubId = 20300874;
+  };
   rszamszur = {
     name = "Radosław Szamszur";
     email = "radoslawszamszur@gmail.com";
@@ -459,6 +500,18 @@
     email = "silmarjr2@gmail.com";
     github = "silmarp";
     githubId = 67292496;
+  };
+  swarsel = {
+    name = "Leon Schwarzäugl";
+    email = "leon@swarsel.win";
+    github = "Swarsel";
+    githubId = 32304731;
+    keys = [
+      {
+        longkeyid = "rsa4096/0x76FD3810215AE097";
+        fingerprint = "4BE7 9252 6228 9B47 6DBB  C17B 76FD 3810 215A E097";
+      }
+    ];
   };
   vortriz = {
     name = "Rishi Vora";

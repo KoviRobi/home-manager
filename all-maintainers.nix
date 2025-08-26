@@ -201,6 +201,13 @@
     name = "Joaquín Triñanes";
     source = "nixpkgs";
   };
+  Joker9944 = {
+    email = "github@shroud.mozmail.com";
+    github = "Joker9944";
+    githubId = 9194199;
+    name = "Felix von Arx";
+    source = "nixpkgs";
+  };
   JustinLovinger = {
     email = "git@justinlovinger.com";
     github = "JustinLovinger";
@@ -236,6 +243,13 @@
     githubId = 22116767;
     name = "Kritnich";
     source = "nixpkgs";
+  };
+  Kyure-A = {
+    email = "49436968+Kyure-A@users.noreply.github.com";
+    github = "Kyure-A";
+    githubId = 49436968;
+    name = "Kyure_A";
+    source = "home-manager";
   };
   LesVu = {
     email = "lesvu@ingressland.com";
@@ -394,6 +408,19 @@
       }
     ];
     name = "Mel Bourgeois";
+    source = "nixpkgs";
+  };
+  Swarsel = {
+    email = "leon@swarsel.win";
+    github = "Swarsel";
+    githubId = 32304731;
+    keys = [
+      {
+        fingerprint = "4BE7 9252 6228 9B47 6DBB  C17B 76FD 3810 215A E097";
+        longkeyid = "rsa4096/0x76FD3810215AE097";
+      }
+    ];
+    name = "Leon Schwarzäugl";
     source = "nixpkgs";
   };
   ThibautMarty = {
@@ -739,13 +766,6 @@
     name = "Callum Leslie";
     source = "nixpkgs";
   };
-  carpinchomug = {
-    email = "aki.suda@protonmail.com";
-    github = "carpinchomug";
-    githubId = 101536256;
-    name = "Akiyoshi Suda";
-    source = "nixpkgs";
-  };
   chayleaf = {
     email = "chayleaf-nix@pavluk.org";
     github = "chayleaf";
@@ -962,6 +982,13 @@
     name = "Emery Hemingway";
     source = "nixpkgs";
   };
+  elanora96 = {
+    email = "git@elanora.lol";
+    github = "elanora96";
+    githubId = 27848938;
+    name = "Elanora Manson";
+    source = "home-manager";
+  };
   elizagamedev = {
     email = "eliza@eliza.sh";
     github = "elizagamedev";
@@ -975,6 +1002,13 @@
     githubId = 83901271;
     name = "Fedi Jamoussi";
     source = "nixpkgs";
+  };
+  epixtm = {
+    email = "kami@epix.icu";
+    github = "epixtm";
+    githubId = 168025607;
+    name = "Epix";
+    source = "home-manager";
   };
   ethancedwards8 = {
     email = "ethan@ethancedwards.com";
@@ -990,6 +1024,13 @@
     ];
     matrix = "@ethancedwards8:matrix.org";
     name = "Ethan Carter Edwards";
+    source = "nixpkgs";
+  };
+  ethorsoe = {
+    email = "jekarlson@gmail.com";
+    github = "ethorsoe";
+    githubId = 1204734;
+    name = "Emil Karlson";
     source = "nixpkgs";
   };
   evanjs = {
@@ -1210,13 +1251,6 @@
     matrix = "@jiriks74:matrix.org";
     name = "Jiří Štefka";
     source = "nixpkgs";
-  };
-  jkarlson = {
-    email = "jekarlson@gmail.com";
-    github = "jkarlson";
-    githubId = 1204734;
-    name = "Emil Karlson";
-    source = "home-manager";
   };
   jlesquembre = {
     email = "jl@lafuente.me";
@@ -1481,6 +1515,14 @@
     github = "matrss";
     githubId = 9308656;
     name = "Matthias Riße";
+    source = "nixpkgs";
+  };
+  matthiasbeyer = {
+    email = "mail@beyermatthias.de";
+    github = "matthiasbeyer";
+    githubId = 427866;
+    matrix = "@musicmatze:beyermatthi.as";
+    name = "Matthias Beyer";
     source = "nixpkgs";
   };
   mbrgm = {
@@ -1853,6 +1895,13 @@
     name = "PopeRigby";
     source = "nixpkgs";
   };
+  poseidon-rises = {
+    email = "softwaredevelopment.stingray177@passinbox.com";
+    github = "poseidon-rises";
+    githubId = 179542264;
+    name = "poseidon-rises";
+    source = "home-manager";
+  };
   rasmus-kirk = {
     email = "mail@rasmuskirk.com";
     github = "rasmus-kirk";
@@ -1906,6 +1955,13 @@
     name = "Adam Washington";
     source = "nixpkgs";
   };
+  rrvsh = {
+    email = "rafiq@rrv.sh";
+    github = "rrvsh";
+    githubId = 20300874;
+    name = "Mohammad Rafiq";
+    source = "home-manager";
+  };
   rszamszur = {
     email = "radoslawszamszur@gmail.com";
     github = "rszamszur";
@@ -1944,9 +2000,9 @@
     name = "Robert Helgesson";
     source = "nixpkgs";
   };
-  seylerius = {
+  sableseyler = {
     email = "sable@seyleri.us";
-    github = "seylerius";
+    github = "sableseyler";
     githubId = 1145981;
     keys = [
       {

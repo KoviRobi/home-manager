@@ -30,7 +30,7 @@ in
     };
 
     osFlake = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
+      type = with lib.types; nullOr (either singleLineStr path);
       default = null;
       description = ''
         The string that will be used for the {env}`NH_OS_FLAKE` environment variable.
@@ -42,7 +42,7 @@ in
     };
 
     homeFlake = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
+      type = with lib.types; nullOr (either singleLineStr path);
       default = null;
       description = ''
         The string that will be used for the {env}`NH_HOME_FLAKE` environment variable.
@@ -54,7 +54,7 @@ in
     };
 
     darwinFlake = lib.mkOption {
-      type = lib.types.nullOr lib.types.str;
+      type = with lib.types; nullOr (either singleLineStr path);
       default = null;
       description = ''
         The string that will be used for the {env}`NH_DARWIN_FLAKE` environment variable.
@@ -100,22 +100,9 @@ in
       lib.optional (cfg.clean.enable && config.nix.gc.automatic)
         "programs.nh.clean.enable and nix.gc.automatic (Home-Manager) are both enabled. Please use one or the other to avoid conflict.";
 
-    assertions =
-      (lib.optionals pkgs.stdenv.isDarwin [
-        (lib.hm.darwin.assertInterval "programs.nh.clean.dates" cfg.clean.dates pkgs)
-      ])
-      ++
-        map
-          (name: {
-            assertion = (cfg.${name} != null) -> !(lib.hasSuffix ".nix" cfg.${name});
-            message = "nh.${name} must be a directory, not a nix file";
-          })
-          [
-            "darwinFlake"
-            "flake"
-            "homeFlake"
-            "osFlake"
-          ];
+    assertions = lib.optionals pkgs.stdenv.isDarwin [
+      (lib.hm.darwin.assertInterval "programs.nh.clean.dates" cfg.clean.dates pkgs)
+    ];
 
     home = lib.mkIf cfg.enable {
       packages = [ cfg.package ];
