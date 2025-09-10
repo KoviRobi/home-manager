@@ -136,6 +136,13 @@
     name = "Erin Pletches";
     source = "nixpkgs";
   };
+  FredeHoey = {
+    email = "frederikbraendstrup@gmail.com";
+    github = "FredeHoey";
+    githubId = 7551358;
+    name = "Frede Emil";
+    source = "nixpkgs";
+  };
   FriedrichAltheide = {
     github = "FriedrichAltheide";
     githubId = 11352905;
@@ -981,13 +988,6 @@
     githubId = 32838899;
     name = "Daniel Wagenknecht";
     source = "home-manager";
-  };
-  ehmry = {
-    email = "ehmry@posteo.net";
-    github = "ehmry";
-    githubId = 537775;
-    name = "Emery Hemingway";
-    source = "nixpkgs";
   };
   elanora96 = {
     email = "git@elanora.lol";
@@ -1940,6 +1940,14 @@
     github = "repparw";
     githubId = 45952970;
     name = "repparw";
+    source = "nixpkgs";
+  };
+  roberth = {
+    email = "nixpkgs@roberthensing.nl";
+    github = "roberth";
+    githubId = 496447;
+    matrix = "@roberthensing:matrix.org";
+    name = "Robert Hensing";
     source = "nixpkgs";
   };
   robwalt = {
