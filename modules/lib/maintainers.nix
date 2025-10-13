@@ -2,9 +2,9 @@
 #
 # This attribute set contains Home Manager module maintainers that do
 # not have an entry in the Nixpkgs maintainer list [1]. Entries here
-# are expected to be follow the same format as described in [1].
+# are expected to follow the same format as described in [1].
 #
-# [1] https://github.com/NixOS/nixpkgs/blob/fca0d6e093c82b31103dc0dacc48da2a9b06e24b/maintainers/maintainer-list.nix#LC1
+# [1] https://github.com/NixOS/nixpkgs/blob/737449404589e4a80b3fa99ecbc6d4d803c1f6dc/maintainers/maintainer-list.nix#LC1
 {
   # keep-sorted start case=no numeric=no block=yes
   "3ulalia" = {
@@ -60,6 +60,12 @@
     email = "aheaume@users.noreply.github.com";
     github = "aheaume";
     githubId = 13830042;
+  };
+  aionescu = {
+    name = "Alex Ionescu";
+    email = "github@ionescu.sh";
+    github = "aionescu";
+    githubId = 48064242;
   };
   austreelis = {
     email = "github@accounts.austreelis.net";
@@ -216,12 +222,6 @@
         fingerprint = "AD32 73D4 5E0E 9478 E826  543F EDB2 C634 166A E6AD";
       }
     ];
-  };
-  ipsavitsky = {
-    name = "Ilya Savitsky";
-    email = "ipsavitsky234@gmail.com";
-    github = "ipsavitsky";
-    githubId = 33558632;
   };
   jack5079 = {
     name = "Jack W.";
@@ -500,18 +500,6 @@
     email = "silmarjr2@gmail.com";
     github = "silmarp";
     githubId = 67292496;
-  };
-  swarsel = {
-    name = "Leon Schwarzäugl";
-    email = "leon@swarsel.win";
-    github = "Swarsel";
-    githubId = 32304731;
-    keys = [
-      {
-        longkeyid = "rsa4096/0x76FD3810215AE097";
-        fingerprint = "4BE7 9252 6228 9B47 6DBB  C17B 76FD 3810 215A E097";
-      }
-    ];
   };
   vortriz = {
     name = "Rishi Vora";
