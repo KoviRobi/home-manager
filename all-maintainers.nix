@@ -425,7 +425,6 @@
     keys = [
       {
         fingerprint = "4BE7 9252 6228 9B47 6DBB  C17B 76FD 3810 215A E097";
-        longkeyid = "rsa4096/0x76FD3810215AE097";
       }
     ];
     name = "Leon Schwarzäugl";
@@ -2257,6 +2256,13 @@
     githubId = 17003032;
     name = "Willi Carlsen";
     source = "nixpkgs";
+  };
+  will-lol = {
+    email = "will.bradshaw50@gmail.com";
+    github = "will-lol";
+    githubId = 65345408;
+    name = "William Bradshaw";
+    source = "home-manager";
   };
   workflow = {
     email = "4farlion@gmail.com";
