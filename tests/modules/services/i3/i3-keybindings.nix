@@ -6,7 +6,6 @@
   xsession.windowManager.i3 = {
     enable = true;
 
-    config.defaultWorkspace = "workspace number 5";
     config.keybindings =
       let
         modifier = config.xsession.windowManager.i3.config.modifier;

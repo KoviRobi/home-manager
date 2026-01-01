@@ -1033,4 +1033,15 @@ in
     default = [ ];
     description = "Assign workspaces to outputs.";
   };
+
+  withPriority =
+    type:
+    types.either type (
+      types.submodule {
+        options = {
+          priority = mkOption { type = types.int; };
+          value = mkOption { inherit type; };
+        };
+      }
+    );
 }

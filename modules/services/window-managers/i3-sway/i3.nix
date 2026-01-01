@@ -42,16 +42,7 @@ let
         ;
 
       keybindings = mkOption {
-        type =
-          let
-            withPriority = types.submodule {
-              options = {
-                priority = mkOption { type = types.int; };
-                value = mkOption { type = types.str; };
-              };
-            };
-          in
-          types.attrsOf (types.nullOr (types.either types.str withPriority));
+        type = types.attrsOf (types.nullOr (commonOptions.withPriority types.str));
         default = lib.mapAttrs (n: lib.mkOptionDefault) {
           "${cfg.config.modifier}+Return" = "exec ${cfg.config.terminal}";
           "${cfg.config.modifier}+Shift+q" = "kill";
@@ -124,46 +115,16 @@ let
             value = "workspace number 10";
           };
 
-          "${cfg.config.modifier}+Shift+1" = {
-            priority = 201;
-            value = "move container to workspace number 1";
-          };
-          "${cfg.config.modifier}+Shift+2" = {
-            priority = 202;
-            value = "move container to workspace number 2";
-          };
-          "${cfg.config.modifier}+Shift+3" = {
-            priority = 203;
-            value = "move container to workspace number 3";
-          };
-          "${cfg.config.modifier}+Shift+4" = {
-            priority = 204;
-            value = "move container to workspace number 4";
-          };
-          "${cfg.config.modifier}+Shift+5" = {
-            priority = 205;
-            value = "move container to workspace number 5";
-          };
-          "${cfg.config.modifier}+Shift+6" = {
-            priority = 206;
-            value = "move container to workspace number 6";
-          };
-          "${cfg.config.modifier}+Shift+7" = {
-            priority = 207;
-            value = "move container to workspace number 7";
-          };
-          "${cfg.config.modifier}+Shift+8" = {
-            priority = 208;
-            value = "move container to workspace number 8";
-          };
-          "${cfg.config.modifier}+Shift+9" = {
-            priority = 209;
-            value = "move container to workspace number 9";
-          };
-          "${cfg.config.modifier}+Shift+0" = {
-            priority = 210;
-            value = "move container to workspace number 10";
-          };
+          "${cfg.config.modifier}+Shift+1" = "move container to workspace number 1";
+          "${cfg.config.modifier}+Shift+2" = "move container to workspace number 2";
+          "${cfg.config.modifier}+Shift+3" = "move container to workspace number 3";
+          "${cfg.config.modifier}+Shift+4" = "move container to workspace number 4";
+          "${cfg.config.modifier}+Shift+5" = "move container to workspace number 5";
+          "${cfg.config.modifier}+Shift+6" = "move container to workspace number 6";
+          "${cfg.config.modifier}+Shift+7" = "move container to workspace number 7";
+          "${cfg.config.modifier}+Shift+8" = "move container to workspace number 8";
+          "${cfg.config.modifier}+Shift+9" = "move container to workspace number 9";
+          "${cfg.config.modifier}+Shift+0" = "move container to workspace number 10";
 
           "${cfg.config.modifier}+Shift+c" = "reload";
           "${cfg.config.modifier}+Shift+r" = "restart";
@@ -177,6 +138,10 @@ let
           An attribute set that assigns a key press to an action using a key symbol.
           See <https://i3wm.org/docs/userguide.html#keybindings>.
 
+          Can set priority by using a set `{ priority = 100; value = "..."; }`,
+          default priority is 1000, but bindings for Mod+N where N is 0, ..., 9
+          have priority 100+N.
+
           Consider to use `lib.mkOptionDefault` function to extend or override
           default keybindings instead of specifying all of them from scratch.
         '';
@@ -184,6 +149,8 @@ let
           let
             modifier = config.xsession.windowManager.i3.config.modifier;
           in lib.mkOptionDefault {
+            "''${modifier}+0" = { priority = 100; value = "workspace number 0"; };
+            "''${modifier}+Shift+0" = { priority = 200; value = "move container to workspace number 0"; };
             "''${modifier}+Return" = "exec i3-sensible-terminal";
             "''${modifier}+Shift+q" = "kill";
             "''${modifier}+d" = "exec ''${pkgs.dmenu}/bin/dmenu_run";
@@ -271,7 +238,8 @@ let
               "client.urgent ${colorSetStr colors.urgent}"
               "client.placeholder ${colorSetStr colors.placeholder}"
               "client.background ${colors.background}"
-              keybindingsStr
+              ""
+              (keybindingsStr { inherit keybindings; })
               (keycodebindingsStr keycodebindings)
             ]
             ++ lib.mapAttrsToList (modeStr false) modes

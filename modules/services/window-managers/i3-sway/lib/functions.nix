@@ -52,7 +52,7 @@ rec {
       builtins.sort (lhs: rhs: getPriority lhs < getPriority rhs) (lib.attrsToList attrs)
     );
 
-  makeKeybindingsStr =
+  keybindingsStr =
     {
       keybindings,
       bindsymArgs ? "",
@@ -65,8 +65,6 @@ rec {
           "${indent}bindsym ${lib.optionalString (bindsymArgs != "") "${bindsymArgs} "}${keycomb} ${action}"
       ) keybindings
     );
-
-  keybindingsStr = makeKeybindingsStr { inherit (cfg.config) keybindings; };
 
   keycodebindingsStr =
     keycodebindings:
@@ -95,7 +93,7 @@ rec {
 
   modeStr = bindkeysToCode: name: keybindings: ''
     mode "${name}" {
-    ${makeKeybindingsStr {
+    ${keybindingsStr {
       inherit keybindings;
       bindsymArgs = lib.optionalString bindkeysToCode "--to-code";
       indent = "  ";
