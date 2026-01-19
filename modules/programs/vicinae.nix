@@ -133,26 +133,21 @@ in
     settings = lib.mkOption {
       inherit (jsonFormat) type;
       default = { };
-      description = "Settings written as JSON to `~/.config/vicinae/settings.json.";
       example = lib.literalExpression ''
         {
-          faviconService = "twenty";
-          font = {
-            size = 10;
-          };
-          popToRootOnClose = false;
-          rootSearch = {
-            searchFiles = false;
-          };
+          favicon_service = "twenty";
+          font.normal.size = 10;
+          pop_to_root_on_close=false;
+          search_files_in_root= false;
           theme = {
-            name = "vicinae-dark";
-          };
-          window = {
-           csd = true;
-           opacity = 0.95;
-           rounding = 10;
+            dark.name = "vicinae-dark";
+            light.name = "vicinae-light";
           };
         }
+      '';
+      description = ''
+        Settings written as JSON to {file}`~/.config/vicinae/settings.json`.
+        See {command}`vicinae config default`.
       '';
     };
   };
@@ -166,7 +161,7 @@ in
       }
       {
         assertion = !cfg.useLayerShell -> !versionPost0_17;
-        message = ''After version 0.17, if you want to explicitly disable the use of layer shell, you need to set {option}.programs.vicinae.settings.launcher_window.layer_shell.enabled = false.'';
+        message = "After version 0.17, if you want to explicitly disable the use of layer shell, you need to set {option}.programs.vicinae.settings.launcher_window.layer_shell.enabled = false.";
       }
     ];
     lib.vicinae.mkExtension = (
@@ -245,7 +240,7 @@ in
 
         dataFile =
           builtins.listToAttrs (
-            builtins.map (item: {
+            map (item: {
               name = "vicinae/extensions/${item.name}";
               value.source = item;
             }) cfg.extensions
@@ -268,7 +263,7 @@ in
         KillMode = "process";
         EnvironmentFile = lib.mkIf (!versionPost0_17) (
           pkgs.writeText "vicinae-env" ''
-            USE_LAYER_SHELL=${if cfg.useLayerShell then builtins.toString 1 else builtins.toString 0}
+            USE_LAYER_SHELL=${if cfg.useLayerShell then toString 1 else toString 0}
           ''
         );
       };

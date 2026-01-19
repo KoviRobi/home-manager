@@ -21,6 +21,7 @@ in
       type = types.nullOr types.path;
       default = null;
       description = "Path to the assets directory.";
+      example = "~/.local/share/Steam/steamapps/common/wallpaper_engine/assets";
     };
 
     clamping = mkOption {
@@ -42,17 +43,23 @@ in
             monitor = mkOption {
               type = types.str;
               description = "Which monitor to display the wallpaper.";
+              example = "HDMI-A-1";
             };
 
             wallpaperId = mkOption {
               type = types.str;
-              description = "Wallpaper ID to be used.";
+              description = "Wallpaper to be used. Can either be a Steam Workshop ID or the path to the background folder.";
+              example = "3527223773";
             };
 
             extraOptions = mkOption {
               type = types.listOf types.str;
               default = [ ];
               description = "Extra arguments to pass to the linux-wallpaperengine command for this wallpaper.";
+              example = [
+                "--scaling fill"
+                "--fps 12"
+              ];
             };
 
             scaling = mkOption {
@@ -117,7 +124,7 @@ in
         args = lib.lists.forEach cfg.wallpapers (
           each:
           lib.concatStringsSep " " (
-            lib.cli.toGNUCommandLine { } {
+            lib.cli.toCommandLineGNU { } {
               screen-root = each.monitor;
               inherit (each) scaling fps;
               inherit (each.audio) silent;
@@ -125,9 +132,11 @@ in
               no-audio-processing = !each.audio.processing;
             }
             ++ each.extraOptions
+            ++ [
+              "--bg"
+              each.wallpaperId
+            ]
           )
-          # This has to be the last argument in each group
-          + " --bg ${each.wallpaperId}"
         );
       in
       {
