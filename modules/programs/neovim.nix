@@ -35,6 +35,13 @@ in
 {
   meta.maintainers = with lib.maintainers; [ khaneliman ];
 
+  imports = [
+    (lib.mkRenamedOptionModule
+      [ "programs" "neovim" "extraLuaConfig" ]
+      [ "programs" "neovim" "initLua" ]
+    )
+  ];
+
   options = {
     programs.neovim = {
       enable = mkEnableOption "Neovim";
@@ -211,7 +218,7 @@ in
         '';
       };
 
-      extraLuaConfig = mkOption {
+      initLua = mkOption {
         type = types.lines;
         default = "";
         example = lib.literalExpression ''
@@ -437,16 +444,6 @@ in
 
       vimPackageInfo = neovimUtils.makeVimPackageInfo (map suppressNotVimlConfig pluginsNormalized);
 
-      packpathDirs.hm = vimPackageInfo.vimPackage;
-      finalPackdir = neovimUtils.packDir packpathDirs;
-
-      packpathWrapperArgs = lib.optionals (packpathDirs.hm.start != [ ] || packpathDirs.hm.opt != [ ]) [
-        "--add-flags"
-        ''--cmd "set packpath^=${finalPackdir}"''
-        "--add-flags"
-        ''--cmd "set rtp^=${finalPackdir}"''
-      ];
-
       wrappedNeovim' = pkgs.wrapNeovimUnstable cfg.package {
         withNodeJs = cfg.withNodeJs || cfg.coc.enable;
         plugins = [ ];
@@ -466,11 +463,7 @@ in
           ps: (cfg.extraPython3Packages ps) ++ (lib.concatMap (f: f ps) vimPackageInfo.pluginPython3Packages);
         neovimRcContent = cfg.extraConfig;
         wrapperArgs =
-          cfg.extraWrapperArgs
-          ++ extraMakeWrapperArgs
-          ++ extraMakeWrapperLuaCArgs
-          ++ extraMakeWrapperLuaArgs
-          ++ packpathWrapperArgs;
+          cfg.extraWrapperArgs ++ extraMakeWrapperArgs ++ extraMakeWrapperLuaCArgs ++ extraMakeWrapperLuaArgs;
         wrapRc = false;
       };
     in
@@ -502,7 +495,7 @@ in
       programs.neovim.extraConfig = lib.concatStringsSep "\n" vimPackageInfo.userPluginViml;
       programs.neovim.extraPackages = mkIf cfg.autowrapRuntimeDeps vimPackageInfo.runtimeDeps;
 
-      programs.neovim.extraLuaConfig =
+      programs.neovim.initLua =
         let
           # using default 'foldmarker', to be used with foldmethod=marker
           foldedLuaBlock =
@@ -519,25 +512,46 @@ in
           advisedLua = foldedLuaBlock "home-manager generated: plugin config advised in nixpkgs" (
             lib.concatStringsSep "\n" vimPackageInfo.pluginAdvisedLua
           );
+
+          generatedLuaPath = lib.concatMapStringsSep ";" luaPackages.getLuaPath resolvedExtraLuaPackages;
+          generatedLuaCPath = lib.concatMapStringsSep ";" luaPackages.getLuaCPath resolvedExtraLuaPackages;
         in
 
         lib.mkMerge [
+          (lib.mkIf (
+            resolvedExtraLuaPackages != [ ]
+          ) ''package.path = "${generatedLuaPath}".. ";" .. package.path'')
+          (lib.mkIf (
+            resolvedExtraLuaPackages != [ ]
+          ) ''package.cpath = "${generatedLuaCPath}".. ";" .. package.cpath'')
           (lib.mkIf (advisedLua != null) (lib.mkOrder 510 advisedLua))
           (lib.mkIf (wrappedNeovim'.initRc != "") (
             lib.mkBefore "vim.cmd [[source ${pkgs.writeText "nvim-init-home-manager.vim" wrappedNeovim'.initRc}]]"
           ))
-          (lib.mkIf (lib.hasAttr "lua" cfg.generatedConfigs) (
+          (lib.mkIf (lib.hasAttr "lua" cfg.generatedConfigs && cfg.generatedConfigs.lua != "") (
             lib.mkAfter (foldedLuaBlock "user-associated plugin config" cfg.generatedConfigs.lua)
           ))
+
         ];
+
+      # link the packpath in expected folder so that even unwrapped neovim can pick
+      # home-manager's plugins
+      xdg.dataFile."nvim/site/pack/hm" =
+        let
+          packpathDirs.hm = vimPackageInfo.vimPackage;
+        in
+        {
+          enable = allPlugins != [ ];
+          source = "${pkgs.neovimUtils.packDir packpathDirs}/pack/hm";
+        };
 
       xdg.configFile = lib.mkMerge (
         # writes runtime
         (map (x: x.runtime) pluginsNormalized)
         ++ [
           {
-            "nvim/init.lua" = mkIf (cfg.extraLuaConfig != "") {
-              text = cfg.extraLuaConfig;
+            "nvim/init.lua" = mkIf (cfg.initLua != "") {
+              text = cfg.initLua;
             };
 
             "nvim/coc-settings.json" = mkIf cfg.coc.enable {
